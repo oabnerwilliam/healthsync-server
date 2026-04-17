@@ -14,6 +14,7 @@ datasource db {
 enum UserRole {
   DOCTOR
   PATIENT
+  ADMIN
 }
 
 model User {
@@ -25,16 +26,35 @@ model User {
   
   doctor Doctor?
   patient Patient?
+  admin Admin?
 }
 
 model Doctor{
   @@map("doctor")
   id String @id
   user User @relation(fields: [id], references: [id])
+  appointments Appointment[]
 }
 
 model Patient {
   @@map("patient")
   id String @id
   user User @relation(fields: [id], references: [id])
+  appointments Appointment[]
+}
+
+model Admin {
+  @@map("admin")
+  id String @id
+  user User @relation(fields: [id], references: [id])
+}
+
+model Appointment {
+  @@map("appointment")
+  id String @id @default(uuid())
+  doctorId String
+  patientId String
+  doctor Doctor @relation(fields: [doctorId], references: [id])
+  patient Patient @relation(fields: [patientId], references: [id])
+  date DateTime
 }
