@@ -11,6 +11,6 @@ export class DoctorService {
   }
 
   async findAll(): Promise<Doctor[]> {
-    return this.prisma.doctor.findMany();
+    return this.prisma.doctor.findMany({ include: { user: true } });
   }
 }

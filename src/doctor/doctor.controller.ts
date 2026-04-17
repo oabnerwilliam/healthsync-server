@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 import { DoctorService } from './doctor.service';
 import type { Doctor, User } from '@prisma/client';
 
-@Controller('doctor')
+@Controller('doctors')
 export class DoctorController {
   constructor(private readonly doctorService: DoctorService) {}
 
