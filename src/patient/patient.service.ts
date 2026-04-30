@@ -13,4 +13,8 @@ export class PatientService {
   async findAll(): Promise<Patient[]> {
     return this.prisma.patient.findMany({ include: { user: true } });
   }
+
+  async deletePatient(id: string): Promise<Patient> {
+    return this.prisma.patient.delete({ where: { id } });
+  }
 }

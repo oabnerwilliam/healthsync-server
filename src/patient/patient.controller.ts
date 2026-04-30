@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+} from '@nestjs/common';
 import type { Patient, User } from '@prisma/client';
 import { PatientService } from './patient.service';
 
@@ -8,11 +16,21 @@ export class PatientController {
 
   @Post()
   async createPatient(@Body() patient: User): Promise<Patient> {
-    return this.patientService.createPatient({ ...patient, role: 'PATIENT' });
+    return this.patientService.createPatient({
+      ...patient,
+      role: 'PATIENT',
+    });
   }
 
   @Get()
   async findAll(): Promise<Patient[]> {
     return this.patientService.findAll();
+  }
+
+  @Delete(':id')
+  async deletePatient(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<Patient> {
+    return this.patientService.deletePatient(id);
   }
 }
