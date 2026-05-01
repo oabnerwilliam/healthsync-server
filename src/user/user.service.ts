@@ -15,4 +15,8 @@ export class UserService {
   async findAll() {
     return this.prisma.user.findMany();
   }
+
+  async deleteUser(id: string): Promise<User> {
+    return this.prisma.user.delete({ where: { id } });
+  }
 }

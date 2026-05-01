@@ -9,10 +9,14 @@ import {
 } from '@nestjs/common';
 import type { Patient, User } from '@prisma/client';
 import { PatientService } from './patient.service';
+import { UserService } from '../user/user.service';
 
 @Controller('patients')
 export class PatientController {
-  constructor(private readonly patientService: PatientService) {}
+  constructor(
+    private readonly patientService: PatientService,
+    private readonly userService: UserService,
+  ) {}
 
   @Post()
   async createPatient(@Body() patient: User): Promise<Patient> {
@@ -31,6 +35,8 @@ export class PatientController {
   async deletePatient(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<Patient> {
-    return this.patientService.deletePatient(id);
+    const deletedPatient = await this.patientService.deletePatient(id);
+    await this.userService.deleteUser(id);
+    return deletedPatient;
   }
 }
