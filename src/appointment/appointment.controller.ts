@@ -1,4 +1,12 @@
-import { Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
 import {
   AppointmentService,
   type AppointmentWithRelations,
@@ -26,5 +34,10 @@ export class AppointmentController {
       throw new NotFoundException(`Appointment ${id} not found`);
     }
     return appointment;
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string): Promise<AppointmentWithRelations> {
+    return this.appointmentService.delete(id);
   }
 }
